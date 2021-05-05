@@ -1,1 +1,1 @@
-# Data Analysis ToolboX for FINancial Time-Series (DATFINTS)
+# Data Analysis Toolbox for FINancial Time-Series (DATFINTS)
