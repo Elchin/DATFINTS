@@ -195,3 +195,77 @@ def plot_candlesticks(stock_index,date='2021-1-1'):
     )
 
     figure.show()
+
+def FRL(stock_index='BTC-USD',date='2021-1-1'):
+    ''' 
+    Calculates and plots the Fibonacci Retracement levels with no Fib level raios of 0.5 50%
+    Fibonacci  ratios 0.236, .382, 0.618
+    E.g. 1,1,2,3,5,8,13,21,34,55,89,144  ==> 89/144=0.618
+    to get .382 take any number i and divide by i+2 i.e.  21/55~0.38
+    Inputs:
+        stock_index: e.g. 'ETH-USD'
+        date:        e.g. '2021-1-1'
+    '''
+    
+    stock=wb.DataReader(stock_index,start=date,data_source='yahoo') #stock ticker index
+
+    max_price=stock['Close'].max()
+    min_price=stock['Close'].min()
+    diff=max_price-min_price
+    level1=max_price-diff*0.236
+    level2=max_price-diff*0.382
+    level3=max_price-diff*0.5
+    level4=max_price-diff*0.618
+
+    print('level percentage  price ($)')
+    print('00.0%\t\t',max_price)
+    print('23.6%\t\t',level1)
+    print('38.2%\t\t',level2)
+    print('50.0%\t\t',level3)
+    print('61.8%\t\t',level4)
+    print('100.%\t\t',min_price)
+
+    #new_stock=stock
+    fig=plt.figure(figsize=(12.2,4.5))
+
+    ax1=fig.add_subplot(1,1,1)
+    plt.plot(stock.index,stock['Close'])
+    plt.title('Fibonacci Retracement Levels '+stock_index)
+    plt.ylabel('Price [$]')
+
+    plt.axhline(max_price,linestyle='--', alpha=0.5,color='red')
+    plt.axhline(level1,linestyle='--', alpha=0.5,color='orange')
+    plt.axhline(level2,linestyle='--', alpha=0.5,color='yellow')
+    plt.axhline(level3,linestyle='--', alpha=0.5,color='green')
+    plt.axhline(level4,linestyle='--', alpha=0.5,color='blue')
+    plt.axhline(min_price,linestyle='--', alpha=0.5,color='purple')
+    plt.xlabel('Date')
+    plt.ylabel('Price ($)')
+
+    #new_stock=stock
+    fig=plt.figure(figsize=(12.2,4.5))
+    ax2=fig.add_subplot(1,1,1)
+    plt.plot(stock.index,stock['Close'],color='black')
+    plt.title('Fibonacci Retracement Levels '+stock_index)
+    plt.ylabel('Price [$]')
+
+    plt.axhline(max_price,linestyle='--', alpha=0.5,color='red')
+    ax2.fill_between(stock.index,max_price,level1,color='red')
+
+    plt.axhline(level1,linestyle='--', alpha=0.5,color='orange')
+    ax2.fill_between(stock.index,level1,level2,color='orange')
+
+    plt.axhline(level2,linestyle='--', alpha=0.5,color='yellow')
+    ax2.fill_between(stock.index,level2,level3,color='yellow')
+
+    plt.axhline(level3,linestyle='--', alpha=0.5,color='green')
+    ax2.fill_between(stock.index,level3,level4,color='green')
+
+    plt.axhline(level4,linestyle='--', alpha=0.5,color='blue')
+    ax2.fill_between(stock.index,level4,min_price,color='blue')
+
+    plt.axhline(min_price,linestyle='--', alpha=0.5,color='purple')
+    plt.xlabel('Date')
+    plt.ylabel('Price ($)')
+    
+    return
