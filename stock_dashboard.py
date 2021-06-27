@@ -1,6 +1,7 @@
 # This script produces nice visual of a specified stock (by default BTC-USD)
 # To run the script use cpy and paste the line below
 # $ streamlit run "crypto_dashboard.py"
+# to fix streamlight failure cd ~/.streamlit , and delete: rm config.toml
 
 import streamlit as st
 import datetime
@@ -10,7 +11,7 @@ from pandas_datareader import data as wb
 from PIL import Image 
 
 st.write("""
-#Cryptocurrency dashboard application
+#Stock Market/Crypto dashboard application
 """)
 
 st.sidebar.header("User Input")
@@ -18,7 +19,7 @@ st.sidebar.header("User Input")
 def get_input():
     start_date=st.sidebar.text_input("Start-date","2020-01-01")
     end_date=st.sidebar.text_input("End-date","2020-06-01")
-    crypto_symbol=st.sidebar.text_input("Crypto Symbol","BTC-USD")
+    crypto_symbol=st.sidebar.text_input("Stock Symbol","BTC-USD")
     return start_date, end_date, crypto_symbol
 
 def get_crypto_name(symbol):

@@ -269,3 +269,29 @@ def FRL(stock_index='BTC-USD',date='2021-1-1'):
     plt.ylabel('Price ($)')
     
     return
+
+def DSR(stock_index='BTC-USD',date='2021-1-1'):
+    '''
+    Calculate and show daily simple return (DSR)
+    and shows daily simple returns
+    Inputs:
+        stock_index: e.g. 'ETH-USD'
+        date:        e.g. '2021-1-1'
+    Output:
+        DSR.describe() statistics summary
+    '''
+    stock=wb.DataReader(stock_index,start=date,data_source='yahoo') #stock ticker index
+    DSR=stock['Close'].pct_change()
+    top=plt.subplot2grid((4,4), (0,0), rowspan=3, colspan=4)
+    top.plot(stock.index,stock['Close'],label='close')
+    plt.title('Close price')
+    plt.ylabel('Price [USD]')
+    plt.legend(loc='upper left')
+    bottom=plt.subplot2grid((4,4), (3,0), rowspan=1, colspan=4)
+    plt.title('Daily Simple Return')
+    bottom.plot(DSR.index,DSR,label='DSR')
+    plt.subplots_adjust(hspace=0.75)
+    plt.ylabel('Percentage')
+    plt.gcf().set_size_inches(15,8)
+
+    return (DSR.describe())
